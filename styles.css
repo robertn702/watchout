@@ -1,5 +1,42 @@
 /* your beautiful css styling goes here! */
 
-/* Note: an asteroid image is included in this repo. 
+/* Note: an asteroid image is included in this repo.
 Feel free to use it if you like. */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: gray;
+  background-image: url(space-background-hd.jpg);
+  background-size: 100%;
+}
 
+.container {
+  /*background-color: rgba(128,128,128,.15);*/
+  border-radius: 25px;
+}
+
+.container, .scoreboard {
+  border: 3px solid white;
+}
+
+.enemies, .container, .player {
+  height: 450px;
+  width: 700px;
+}
+
+.scoreboard {
+  margin: 10px 0 10px 0;
+  padding: 10px;
+  width: 300px;
+  border-radius: 10px;
+  /*background-color: rgba(128,128,128);*/
+  color: white;
+  font-family: Arial;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.pageCenter {
+  width: 700px;
+  margin: 0 auto 0 auto;
+}

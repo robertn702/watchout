@@ -1,6 +1,6 @@
 // start slingin' some d3 here.
 var playGame = function() {
-  var numOfEnemies = 1;
+  var numOfEnemies = 50;
   var boardHeight = 450;
   var boardWidth = 700;
   var playerRadius = 10;
@@ -45,6 +45,7 @@ var playGame = function() {
   function moveAsteroids() {
     var data = randomLocation(numOfEnemies);
     d3.select('svg').selectAll('.enemies > circle').data(data).transition().duration(1000)
+    .tween('text', checkCollision)
     .attr('cx', function(d) {return d['left'];})
     .attr('cy', function(d) {return d['top'];})
     .attr('r', enemyRadius + 'px');
@@ -70,30 +71,27 @@ var playGame = function() {
 
 
   function checkCollision(){
-    var playerPosition = d3.select('svg.player').selectAll('circle').datum();
-    var playerCX = parseInt(playerPosition['left'].slice(0,-2));
-    var playerCY = parseInt(playerPosition['top'].slice(0,-2));
-    var radiusSum = playerRadius + enemyRadius;
 
-    function separation(d){
-      var xDiff = playerCX - parseInt(d['left'].slice(0,-2));
-      var yDiff = playerCY - parseInt(d['top'].slice(0,-2));
+    return function(t){
+      var radiusSum = playerRadius + enemyRadius;
+
+      var playerPosition = d3.select('svg.player circle');
+      var playerCX = parseInt(playerPosition.attr('cx'), 10);
+      var playerCY = parseInt(playerPosition.attr('cy'), 10);
+
+      var xDiff = playerCX - parseInt(d3.select(this).attr('cx'), 10);
+      var yDiff = playerCY - parseInt(d3.select(this).attr('cy'), 10);
       var separationDist = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
 
       if (separationDist < radiusSum) {
-        //excute callback for collision
         console.log('collision');
       }
-    }
-
-    d3.select('svg').selectAll('.enemies > circle').each(separation);
+    };
   }
-
 
   randomLocation(numOfEnemies);
   generateAsteroids();
   generatePlayer();
-  setInterval(function(){ checkCollision(); }, 125);
   setInterval(function(){ moveAsteroids(); }, 1500);
 };
 
